@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:16
@@ -29,6 +27,10 @@ services:
       RABBIT_URL: amqp://guest:guest@rabbitmq:5672/
     depends_on: [db, redis, rabbitmq]
     ports: ["8080:8080"]
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
 
   # Nightly batch processor (run manually or via cron)
   # docker-compose run --rm batch-processor
